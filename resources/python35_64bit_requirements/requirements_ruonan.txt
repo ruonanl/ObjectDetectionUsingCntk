@@ -1,0 +1,5 @@
+scikit-learn
+Pillow
+future
+dlib
+EasyDict
