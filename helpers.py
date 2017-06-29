@@ -511,7 +511,7 @@ def visualizeResults(imgPath, roiLabels, roiScores, roiRelCoords, classes,
                     text = classes[label]
                     if roiScores:
                         text += "(" + str(round(score, 2)) + ")"
-                    imgDebug = drawText(imgDebug, (rect[0],rect[1]), text, color = (255,255,255), font = font, colorBackground=color)
+                    #imgDebug = drawText(imgDebug, (rect[0],rect[1]), text, color = (255,255,255), font = font, colorBackground=color)
     return imgDebug
 
 
@@ -867,7 +867,7 @@ def ptClip(pt, maxWidth, maxHeight):
     pt[0] = min(pt[0], maxWidth)
     pt[1] = min(pt[1], maxHeight)
     return pt
-
+'''
 def drawText(img, pt, text, textWidth=None, color = (255,255,255), colorBackground = None, font = ImageFont.truetype("arial.ttf", 16)):
     pilImg = imconvertCv2Pil(img)
     pilImg = pilDrawText(pilImg,  pt, text, textWidth, color, colorBackground, font)
@@ -887,7 +887,7 @@ def pilDrawText(pilImg, pt, text, textWidth=None, color = (255,255,255), colorBa
         draw.text(pt, line, fill = tuple(color), font = font)
         textY += height
     return pilImg
-
+'''
 def getColorsPalette():
     colors = [[255,0,0], [0,255,0], [0,0,255], [255,255,0], [255,0,255]]
     for i in range(5):
