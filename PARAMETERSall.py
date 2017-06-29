@@ -1,7 +1,7 @@
 from __future__ import print_function
 from helpers import *
 from sliding_window_helpers import *
-from imdb_data import imdb_data
+#from imdb_data import imdb_data
 import fastRCNN, time, datetime
 from fastRCNN.pascal_voc import pascal_voc
 print(datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))
