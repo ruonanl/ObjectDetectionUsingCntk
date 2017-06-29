@@ -3,7 +3,7 @@ from __future__ import print_function
 from builtins import str
 from builtins import range
 from builtins import object
-from past.utils import old_div
+#from past.utils import old_div
 import pdb, sys, os, time, collections, random #, dlib
 from os.path import join
 import numpy as np
@@ -64,7 +64,7 @@ def getGridRois(imgWidth, imgHeight, nrGridScales, aspectRatios = [1.0], downsca
                 while hStart < imgHeight:
                     if aspectRatio < 1:
                         wEnd = wStart + cellWidth
-                        hEnd = hStart + old_div(cellWidth, aspectRatio)
+                        hEnd = hStart + cellWidth/aspectRatio #old_div(cellWidth, aspectRatio)
                     else:
                         wEnd = wStart + cellWidth * aspectRatio
                         hEnd = hStart + cellWidth
@@ -384,7 +384,8 @@ def convertCntkRoiToAbsCoords(roi, imgWidth, imgHeight, padWidth, padHeight, res
                 roi[1] * padHeight - h_offset,
                 roi[2] * padWidth  - w_offset,
                 roi[3] * padHeight - h_offset]
-        rect = [int(round(old_div(r, scale))) for r in rect]
+        #rect = [int(round(old_div(r, scale))) for r in rect]
+        rect = [int(round(r/scale)) for r in rect]	
     else:
         print("ERROR: Unknown resize method '%s'" % resizeMethod)
         error
