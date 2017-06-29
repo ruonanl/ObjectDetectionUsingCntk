@@ -4,6 +4,6 @@
 # Licensed under The MIT License [see LICENSE for details]
 # Written by Ross Girshick
 # --------------------------------------------------------
-from .imdb import imdb
-from .pascal_voc import pascal_voc
+#from .imdb import imdb # temporarily removed
+#from .pascal_voc import pascal_voc # temporarily removed
 
