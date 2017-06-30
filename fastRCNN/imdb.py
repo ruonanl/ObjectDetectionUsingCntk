@@ -13,6 +13,7 @@ import scipy.sparse
 import platform
 from builtins import range
 
+'''
 if sys.version_info[1] == 4 and sys.version_info[0] == 3:
     from .utils34_win64.cython_bbox import bbox_overlaps
 elif sys.version_info[1] == 5 and sys.version_info[0] == 3:
@@ -20,7 +21,7 @@ elif sys.version_info[1] == 5 and sys.version_info[0] == 3:
 else:
     print("ERROR: Python version {} not supported".format(sys.version_info))
     error
-
+'''
 
 class imdb(object):
     """Image database."""
