@@ -15,6 +15,7 @@ def score_one_image(imgPath,mode_1,model_2):
     boFilterROIs = True
     boUseNonMaximaSurpression = True
 
+    print("reading image...")
     img = imread(imgPath)
 
     # compute ROIs
@@ -24,6 +25,7 @@ def score_one_image(imgPath,mode_1,model_2):
     else:
         gridRois_1 = gridRois_1 + [[0,0,1,1]]*(cntk_nrRois_1-len(gridRois_1))
 
+    print("prepare DNN inputs...")
     # prepare DNN inputs
     _, _, roisCntk_1 = getCntkInputs(imgPath, gridRois_1, None, train_posOverlapThres, nrClasses_1, cntk_nrRois_1, imW, imH)
     arguments_1 = {
@@ -31,14 +33,17 @@ def score_one_image(imgPath,mode_1,model_2):
         model_1.arguments[1]: [np.array(roisCntk_1, np.float32)]
     }
 
+    print("run DNN model...")
     # run DNN model
     dnnOutputs_1 = model_1.eval(arguments_1)[0][0]
     dnnOutputs_1 = dnnOutputs_1[:len(gridRois_1)] 
 
+    print("score all ROIs...")
     # score all ROIs
     labels_1, scores_1 = scoreRois(classifier, dnnOutputs_1, 1, 1, 1, len(classes_1),
                                decisionThreshold = vis_decisionThresholds[classifier])
 
+    print("perform non-maxima surpression...")
     # perform non-maxima surpression
     nmsKeepIndices_1 = []
     if boUseNonMaximaSurpression:
@@ -58,6 +63,7 @@ def score_one_image(imgPath,mode_1,model_2):
     else:
         gridRois_2 = gridRois_2 + [[0,0,1,1]]*(cntk_nrRois_2-len(gridRois_2))
 
+    print("prepare DNN inputs...")
     # prepare DNN inputs
     _, _, roisCntk_2 = getCntkInputs(imgPath, gridRois_2, None, train_posOverlapThres, nrClasses_2, cntk_nrRois_2, imW, imH)
     arguments_2 = {
@@ -65,14 +71,17 @@ def score_one_image(imgPath,mode_1,model_2):
         model_2.arguments[1]: [np.array(roisCntk_2, np.float32)]
     }
 
+    print("run DNN model...")
     # run DNN model
     dnnOutputs_2 = model_2.eval(arguments_2)[0][0]
     dnnOutputs_2 = dnnOutputs_2[:len(gridRois_2)] 
 
+    print("score all ROIs...")
     # score all ROIs
     labels_2, scores_2 = scoreRois(classifier, dnnOutputs_2, 1, 1, 1, len(classes_2),
                                decisionThreshold = vis_decisionThresholds[classifier])
 
+    print("perform non-maxima surpression...")
     # perform non-maxima surpression
     nmsKeepIndices_2 = []
     if boUseNonMaximaSurpression:
@@ -104,14 +113,16 @@ imgPath = rootDir + "/data/" + datasetName + "/testImages"
 ####################################
 
 # load cntk model
-print("Loading DNN..")
+print("Loading DNN...")
 model_1 = load_model(model_path_1)
 model_2 = load_model(model_path_2)
 
 # score all images in one folder
+print("scoring...")
 imgs = os.listdir(imgPath)
 for im in imgs:
+    print(im)
     im_path = imgPath + "/" + im
     result = score_one_image(im_path,model_1,model_2)
-    print(im + " detections: " + result[:200] + '...')
+    print(" detections: " + result[:200] + '...')
     
