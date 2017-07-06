@@ -93,10 +93,16 @@ def score_one_image(imgPath,mode_1,model_2):
     #imshow(imgDebug, waitDuration=0, maxDim=500)
 
     #create json-encoded string of all detections
-    outDict = [{"label": str(l), "score": str(s), "nms": str(False), "left": str(r[0]), "top": str(r[1]), "right": str(r[2]), "bottom": str(r[3])} for l,s, r in zip(labels_2, scores_2, gridRois_2)]
-    for i in nmsKeepIndices_2:
+    scores_3 = [scores_2[x] for x in nmsKeepIndices_2 if labels_2[x] > 0 ]
+    labels_3 = [labels_2[x] for x in nmsKeepIndices_2 if labels_2[x] > 0 ]
+    gridRois_3 = [gridRois_2[x] for x in nmsKeepIndices_2 if labels_2[x] > 0 ]
+
+    #create json-encoded string of all detections
+    outDict = [{"label": str(l), "score": str(s), "nms": str(False), "left": str(r[0]), "top": str(r[1]), "right": str(r[2]), "bottom": str(r[3])} for l,s, r in zip(labels_3, scores_3, gridRois_3)]
+    for i in range(len(labels_3)):
         outDict[i]["nms"] = str(True)
     outJsonString = json.dumps(outDict)
+
     return outJsonString
 
 
@@ -124,5 +130,5 @@ for im in imgs:
     print(im)
     im_path = imgPath + "/" + im
     result = score_one_image(im_path,model_1,model_2)
-    print(" detections: " + result[:200] + '...')
+    print(" detections: " + result)
     
